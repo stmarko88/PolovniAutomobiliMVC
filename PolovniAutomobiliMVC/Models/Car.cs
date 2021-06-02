@@ -16,6 +16,8 @@ namespace PolovniAutomobiliMVC.Models
         public string ImageUrlThumbnail { get; set; }
         public bool IsSpecialOffer { get; set; }
         public int FuelTypeId { get; set; }
+        public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public FuelType FuelType { get; set; }
     }
 }

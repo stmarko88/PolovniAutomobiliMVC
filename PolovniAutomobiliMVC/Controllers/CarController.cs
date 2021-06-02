@@ -29,5 +29,15 @@ namespace PolovniAutomobiliMVC.Controllers
 
             return View(carListViewModel);
         }
+
+        public IActionResult Details(int id)
+        {
+            var car = carRepository.GetCarById(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+            return View(car);
+        }
     }
 }

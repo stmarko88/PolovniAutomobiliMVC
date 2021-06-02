@@ -9,7 +9,7 @@
                 <div class="caption">
                     <h3 class="pull-right">@car.Price.ToString("c")</h3>
                     <h3>
-                        <a>@car.Name</a>
+                        <a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id">@car.Name</a>
                     </h3>
                     <p>@car.DescriptionShort</p>
                 </div>
