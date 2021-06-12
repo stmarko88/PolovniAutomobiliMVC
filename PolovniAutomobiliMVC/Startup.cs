@@ -30,6 +30,7 @@ namespace PolovniAutomobiliMVC
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IFuelTypeRepository, FuelTypeRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             //na ovaj nacin GetCart se poziva odmah prilikom request-a (pogledajte GetCart implementaciju).
             //ako postoji, bice prosledjena postojeca korpa. 
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
