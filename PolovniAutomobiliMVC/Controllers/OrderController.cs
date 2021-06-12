@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PolovniAutomobiliMVC.Models;
 using PolovniAutomobiliMVC.ViewModels;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace PolovniAutomobiliMVC.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;

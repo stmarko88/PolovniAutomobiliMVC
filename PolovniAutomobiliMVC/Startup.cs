@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,11 @@ namespace PolovniAutomobiliMVC
         {
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //addDefaultIdentity - uključuje funkcionalnosti za rad za Identity klasa
+            //AddEntityFrameworkStores - podaci se čuvaju kroz EF Core kroz AppDbContext
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
+
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IFuelTypeRepository, FuelTypeRepository>();
@@ -37,6 +43,7 @@ namespace PolovniAutomobiliMVC
             services.AddHttpContextAccessor(); // pristupamo mu iz ShoppingCart-a da bismo pristupili sesiji
             services.AddSession(); // preduslov za koriscenje sesija
             services.AddControllersWithViews();
+            services.AddRazorPages(); // preduslov zbog Scaffolded funkcionalnosti
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +63,7 @@ namespace PolovniAutomobiliMVC
             app.UseStaticFiles();
             app.UseSession(); // mora da se pozove pre UseRouting
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -64,6 +71,7 @@ namespace PolovniAutomobiliMVC
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id:int?}");
+                endpoints.MapRazorPages();
             });
         }
     }
