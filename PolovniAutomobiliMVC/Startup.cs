@@ -30,6 +30,11 @@ namespace PolovniAutomobiliMVC
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IFuelTypeRepository, FuelTypeRepository>();
+            //na ovaj nacin GetCart se poziva odmah prilikom request-a (pogledajte GetCart implementaciju).
+            //ako postoji, bice prosledjena postojeca korpa. 
+            services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+            services.AddHttpContextAccessor(); // pristupamo mu iz ShoppingCart-a da bismo pristupili sesiji
+            services.AddSession(); // preduslov za koriscenje sesija
             services.AddControllersWithViews();
         }
 
@@ -48,7 +53,7 @@ namespace PolovniAutomobiliMVC
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession(); // mora da se pozove pre UseRouting
             app.UseRouting();
 
             app.UseAuthorization();
